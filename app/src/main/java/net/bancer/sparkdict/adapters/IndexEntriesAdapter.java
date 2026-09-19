@@ -17,6 +17,7 @@ import net.bancer.sparkdict.logging.ConsoleLogger;
 import net.bancer.sparkdict.logging.Logger;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.VisibleForTesting;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -101,11 +102,16 @@ public class IndexEntriesAdapter extends ArrayAdapter<String> implements TextWat
                 currentTask.cancel(true);
             }
             if (!searchStr.isEmpty()) {
-                Shelf shelf = ((SparkDictActivity) getContext()).getShelf();
+                Shelf shelf = getShelf();
                 IndexEntriesRetriever retriever = new IndexEntriesRetriever(shelf, s.toString());
                 currentTask = searchExecutor.submit(retriever);
             }
         }
+    }
+
+    @VisibleForTesting
+    protected Shelf getShelf() {
+        return ((SparkDictActivity) getContext()).getShelf();
     }
 
 	/**
@@ -214,7 +220,7 @@ public class IndexEntriesAdapter extends ArrayAdapter<String> implements TextWat
                 if (!suggestions.isEmpty()) {
                     Collections.sort(suggestions);
                     for (IndexEntry entry : suggestions) {
-                        int key = Collections.binarySearch(entries, entry.getLemma());
+                        int key = Collections.binarySearch(entries, entry.getLemma(), IndexEntry.LEMMA_COMPARATOR);
                         if (key < 0) {
                             entries.add(-(key) - 1, entry.getLemma());
                         }

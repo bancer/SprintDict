@@ -161,6 +161,24 @@ public class IndexEntryTest {
     }
 
     @Test
+    public void lemmaComparatorGroupsSameSpellingRegardlessOfCase() {
+        String b1 = "Brazil";
+        String b2 = "brazil";
+        String b3 = "Brazil nut";
+
+        // b1 and b2 match ignoring case.
+        assertEquals(0, IndexEntry.CASE_INSENSITIVE_ASCII_COMPARATOR.compare(b1, b2));
+
+        // b1 vs b2: case sensitive tie-break ('B' < 'b')
+        assertTrue(IndexEntry.LEMMA_COMPARATOR.compare(b1, b2) < 0);
+
+        // b2 vs b3: "brazil" vs "Brazil nut"
+        // Standard: "brazil" > "Brazil nut" (lowercase > uppercase)
+        // LEMMA_COMPARATOR: "brazil" < "Brazil nut" (because "brazil" < "brazil nut" ignoring case)
+        assertTrue(IndexEntry.LEMMA_COMPARATOR.compare(b2, b3) < 0);
+    }
+
+    @Test
     public void toStringReturnsDetails() {
         String expected = "[lemma: Example, lengthInBytes: 7, wordDataOffset: 123, wordDataSize: 456]";
         assertEquals(expected, entry.toString());

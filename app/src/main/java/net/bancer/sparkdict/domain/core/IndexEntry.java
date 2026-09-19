@@ -1,13 +1,60 @@
 package net.bancer.sparkdict.domain.core;
 
 import androidx.annotation.NonNull;
+import java.util.Comparator;
 
 /**
  * IndexEntry is a single entry in <dictionary name>.idx file.
- *
- * @author Valerij Bancer
  */
 public class IndexEntry implements Comparable<IndexEntry> {
+
+    /**
+     * Comparator that compares strings ignoring ASCII case but taking non-ASCII case into account.
+     * Compares two strings, ignoring the case of ASCII characters. It treats
+     * non-ASCII characters taking in account case differences.
+     * This is an attempt to mimic glib's string utility function
+     * <a href="http://developer.gnome.org/glib/2.28/glib-String-Utility-Functions.html#g-ascii-strcasecmp">g_ascii_strcasecmp ()</a>
+     * which source can be found <a href="http://git.gnome.org/browse/glib/tree/glib/gstrfuncs.c">here</a>.
+     *
+     * This is a slightly modified version of java.lang.String.CASE_INSENSITIVE_ORDER.compare(String s1, String s2) method.
+     */
+    public static final Comparator<String> CASE_INSENSITIVE_ASCII_COMPARATOR = (str1, str2) -> {
+        int n1 = str1.length();
+        int n2 = str2.length();
+        int min = Math.min(n1, n2);
+        for (int i = 0; i < min; i++) {
+            char c1 = str1.charAt(i);
+            char c2 = str2.charAt(i);
+            if (c1 != c2) {
+                if ((int) c1 > 127 || (int) c2 > 127) { //if non-ASCII char
+                    return c1 - c2;
+                } else {
+                    c1 = Character.toUpperCase(c1);
+                    c2 = Character.toUpperCase(c2);
+                    if (c1 != c2) {
+                        c1 = Character.toLowerCase(c1);
+                        c2 = Character.toLowerCase(c2);
+                        if (c1 != c2) {
+                            return c1 - c2;
+                        }
+                    }
+                }
+            }
+        }
+        return n1 - n2;
+    };
+
+    /**
+     * Comparator for lemmas that groups strings with the same spelling (case-insensitive)
+     * together, while maintaining a consistent case-sensitive order for ties.
+     */
+    public static final Comparator<String> LEMMA_COMPARATOR = (s1, s2) -> {
+        int res = CASE_INSENSITIVE_ASCII_COMPARATOR.compare(s1, s2);
+        if (res == 0) {
+            res = s1.compareTo(s2);
+        }
+        return res;
+    };
 
     /**
      * Flag indicating that the whole word should be compared during the search.
@@ -56,45 +103,6 @@ public class IndexEntry implements Comparable<IndexEntry> {
     }
 
     /**
-     * Compares two strings, ignoring the case of ASCII characters. It treats
-     * non-ASCII characters taking in account case differences.
-     * This is an attempt to mimic glib's string utility function
-     * <a href="http://developer.gnome.org/glib/2.28/glib-String-Utility-Functions.html#g-ascii-strcasecmp">g_ascii_strcasecmp ()</a>
-     * which source can be found <a href="http://git.gnome.org/browse/glib/tree/glib/gstrfuncs.c">here</a>.
-     * <p>
-     * This is a slightly modified version of java.lang.String.CASE_INSENSITIVE_ORDER.compare(String s1, String s2) method.
-     *
-     * @param str1 string to compare with str2
-     * @param str2 string to compare with str1
-     * @return        0 if the strings match, a negative value if str1 < str2, or a positive value if str1 > str2
-     */
-    private static int compareToIgnoreCaseASCIIOnly(String str1, String str2) {
-        int n1 = str1.length();
-        int n2 = str2.length();
-        int min = Math.min(n1, n2);
-        for (int i = 0; i < min; i++) {
-            char c1 = str1.charAt(i);
-            char c2 = str2.charAt(i);
-            if (c1 != c2) {
-                if ((int) c1 > 127 || (int) c2 > 127) { //if non-ASCII char
-                    return c1 - c2;
-                } else {
-                    c1 = Character.toUpperCase(c1);
-                    c2 = Character.toUpperCase(c2);
-                    if (c1 != c2) {
-                        c1 = Character.toLowerCase(c1);
-                        c2 = Character.toLowerCase(c2);
-                        if (c1 != c2) {
-                            return c1 - c2;
-                        }
-                    }
-                }
-            }
-        }
-        return n1 - n2;
-    }
-
-    /**
      * Compares this IndexEntry to another IndexEntry ignoring the case of ASCII
      * characters. It treats non-ASCII characters taking in account case differences.
      *
@@ -109,12 +117,12 @@ public class IndexEntry implements Comparable<IndexEntry> {
      * equals to the  value of the word of this IndexEntry <b>taking in account</b> case
      * differences the method returns 0.
      * <p>
-     * Developer note: if `compareToIgnoreCaseASCIIOnly` does not discover
+     * Developer note: if `CASE_INSENSITIVE_ASCII_COMPARATOR` does not discover
      * differences only then `compareTo` is applied.
      */
     @Override
     public int compareTo(IndexEntry other) {
-        return compareWordStringTo(other.lemma);
+        return LEMMA_COMPARATOR.compare(lemma, other.lemma);
     }
 
     /**
@@ -156,11 +164,7 @@ public class IndexEntry implements Comparable<IndexEntry> {
      * @see #compareTo(IndexEntry)
      */
     private int compareWordStringTo(String str) {
-        int res = compareToIgnoreCaseASCIIOnly(lemma, str);
-        if (res == 0) {
-            res = lemma.compareTo(str);
-        }
-        return res;
+        return LEMMA_COMPARATOR.compare(lemma, str);
     }
 
     /**
@@ -180,7 +184,7 @@ public class IndexEntry implements Comparable<IndexEntry> {
         } else {
             truncatedWord = lemma;
         }
-        return IndexEntry.compareToIgnoreCaseASCIIOnly(truncatedWord, prefix);
+        return CASE_INSENSITIVE_ASCII_COMPARATOR.compare(truncatedWord, prefix);
     }
 
     /**
