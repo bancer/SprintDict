@@ -53,4 +53,5 @@
     <string name="find_on_page_next">Далее</string>
     <string name="find_on_page_previous">Назад</string>
     <string name="find_on_page_close">Закрыть</string>
+    <string name="definitions_expander_icon_description">Иконка раскрытия определений.</string>
 </resources>
