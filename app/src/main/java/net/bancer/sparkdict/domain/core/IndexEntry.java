@@ -15,7 +15,7 @@ public class IndexEntry implements Comparable<IndexEntry> {
      * This is an attempt to mimic glib's string utility function
      * <a href="http://developer.gnome.org/glib/2.28/glib-String-Utility-Functions.html#g-ascii-strcasecmp">g_ascii_strcasecmp ()</a>
      * which source can be found <a href="http://git.gnome.org/browse/glib/tree/glib/gstrfuncs.c">here</a>.
-     *
+     * <p>
      * This is a slightly modified version of java.lang.String.CASE_INSENSITIVE_ORDER.compare(String s1, String s2) method.
      */
     public static final Comparator<String> CASE_INSENSITIVE_ASCII_COMPARATOR = (str1, str2) -> {

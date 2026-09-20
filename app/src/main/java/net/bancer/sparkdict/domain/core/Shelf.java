@@ -47,7 +47,6 @@ public class Shelf {
     /**
      * Constructor.
      *
-     * @param enabledDicts string array of the enabled dictionaries titles.
      * @param enabledDicts String array of the enabled dictionaries titles.
      */
     public Shelf(String[] enabledDicts, DictionaryFiles dictionaryFiles) {
