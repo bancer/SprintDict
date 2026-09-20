@@ -153,7 +153,7 @@ public class SparkDictActivityTest {
      * @return A matcher that matches a {@link TextView} containing the highlighted word.
      */
     private static Matcher<View> hasHighlightedWord(String word) {
-        return new TypeSafeMatcher<View>() {
+        return new TypeSafeMatcher<>() {
 
             @Override
             protected boolean matchesSafely(View view) {

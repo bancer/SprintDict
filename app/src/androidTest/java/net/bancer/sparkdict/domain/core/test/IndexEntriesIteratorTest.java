@@ -34,7 +34,7 @@ public class IndexEntriesIteratorTest {
     private DictionaryFiles dictionaryFiles;
 
     @Before
-    public void setUp() throws DomainException {
+    public void setUp() {
         Context context = ApplicationProvider.getApplicationContext();
         dictionaryFiles = SafDictionaryFilesFactory.create(context);
     }

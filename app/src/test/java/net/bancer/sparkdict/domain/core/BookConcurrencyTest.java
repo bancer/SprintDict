@@ -1,7 +1,6 @@
 package net.bancer.sparkdict.domain.core;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 
 import net.bancer.sparkdict.Fixtures;

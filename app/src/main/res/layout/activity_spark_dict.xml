@@ -47,12 +47,17 @@
             android:layout_width="0dip"
             android:layout_height="fill_parent"
             android:layout_weight="1"
+            android:autofillHints="none"
+            android:hint="@string/find_on_page_hint"
             android:inputType="text" />
 
         <Button
             android:id="@+id/find_on_page_next_btn"
             android:layout_width="60dp"
             android:layout_height="60dp"
+            xmlns:tools="http://schemas.android.com/tools"
+            tools:ignore="HardcodedText"
+            android:contentDescription="@string/find_on_page_next"
             android:onClick="onFindNextWordOnPageButtonClick"
             android:text="&#x25BC;"
             android:textAppearance="?android:attr/textAppearanceLarge" />
@@ -61,6 +66,9 @@
             android:id="@+id/find_on_page_previous_btn"
             android:layout_width="60dp"
             android:layout_height="60dp"
+            xmlns:tools="http://schemas.android.com/tools"
+            tools:ignore="HardcodedText"
+            android:contentDescription="@string/find_on_page_previous"
             android:onClick="onFindPreviousWordOnPageButtonClick"
             android:text="&#x25B2;"
             android:textAppearance="?android:attr/textAppearanceLarge" />
@@ -69,6 +77,9 @@
             android:id="@+id/find_on_page_close_btn"
             android:layout_width="60dp"
             android:layout_height="60dp"
+            xmlns:tools="http://schemas.android.com/tools"
+            tools:ignore="HardcodedText"
+            android:contentDescription="@string/find_on_page_close"
             android:onClick="onCloseFindOnPageBarButtonClick"
             android:text="&#x2715;"
             android:textAppearance="?android:attr/textAppearanceLarge" />
@@ -86,7 +97,7 @@
             android:id="@+id/articles_list"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"></net.bancer.sparkdict.views.LexicalEntriesListView>
+            android:orientation="vertical" />
     </ScrollView>
 
     <ProgressBar

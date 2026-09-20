@@ -49,4 +49,9 @@
     <string name="dict_cannot_be_indexed">%s словарь не проиндексирован. Пожалуйста, проинформируйте разработчиков.</string>
     <string name="sprint_dict_indexing_notification">Индексация словарей</string>
     <string name="parsing_definitions">Обработка дефиниций…</string>
+    <string name="find_on_page_hint">Поиск на странице</string>
+    <string name="find_on_page_next">Далее</string>
+    <string name="find_on_page_previous">Назад</string>
+    <string name="find_on_page_close">Закрыть</string>
+    <string name="definitions_expander_icon_description">Иконка раскрытия определений.</string>
 </resources>

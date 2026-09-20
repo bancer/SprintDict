@@ -8,11 +8,7 @@ import net.bancer.sparkdict.domain.utils.InMemorySeekableByteChannel;
 
 import org.junit.Test;
 
-import java.io.IOException;
 import java.io.OutputStream;
-import java.nio.ByteBuffer;
-import java.nio.channels.ClosedChannelException;
-import java.nio.channels.NonWritableChannelException;
 import java.nio.channels.SeekableByteChannel;
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;

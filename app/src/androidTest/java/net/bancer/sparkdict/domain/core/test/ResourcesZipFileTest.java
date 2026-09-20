@@ -9,7 +9,6 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import net.bancer.sparkdict.domain.core.DictionaryFiles;
 import net.bancer.sparkdict.domain.core.ResourcesZipFile;
-import net.bancer.sparkdict.domain.utils.DomainException;
 import net.bancer.sparkdict.mocks.Mocks;
 import net.bancer.sparkdict.storage.SafDictionaryFilesFactory;
 
@@ -23,7 +22,7 @@ public class ResourcesZipFileTest {
     private DictionaryFiles dictionaryFiles;
 
     @Before
-    public void setUp() throws DomainException {
+    public void setUp() {
         Context context = ApplicationProvider.getApplicationContext();
         dictionaryFiles = SafDictionaryFilesFactory.create(context);
     }
