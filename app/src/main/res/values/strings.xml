@@ -49,4 +49,8 @@
     <string name="dict_cannot_be_indexed">%s dictionary cannot be indexed. Please, report to developers.</string>
     <string name="sprint_dict_indexing_notification">Indexing dictionaries</string>
     <string name="parsing_definitions">Parsing definitions…</string>
+    <string name="find_on_page_hint">Find on page</string>
+    <string name="find_on_page_next">Next</string>
+    <string name="find_on_page_previous">Previous</string>
+    <string name="find_on_page_close">Close</string>
 </resources>
